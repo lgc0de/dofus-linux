@@ -7,7 +7,7 @@ Ce script corrige :
 - le plantage de wineserver de temps en temps (jeu figé)
 - jeu plus fluide
 
-NB: Le script sera peu être à relancer après les MAJ.
+NB: Le script sera peut-être à relancer après les MAJ.
 
 ### Prérequis
 - winetricks (souvent déjà installé)

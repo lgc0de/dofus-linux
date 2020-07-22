@@ -23,7 +23,6 @@ fi
 
 # create new script
 touch zaap-start.sh
-echo $currentpath >> zaap-start.sh
 echo "#!/bin/sh" >> zaap-start.sh
 echo "WINEPREFIX=$currentpath/.wine $currentpath/lutris-$winever-x86_64/bin/wine Dofus.exe --port=\$ZAAP_PORT --gameName=\$ZAAP_GAME --gameRelease=\$ZAAP_RELEASE --instanceId=\$ZAAP_INSTANCE_ID --hash=\$ZAAP_HASH --canLogin=\$ZAAP_CAN_AUTH > /dev/null 2>&1" >> zaap-start.sh
 echo "exit \$?" >> zaap-start.sh

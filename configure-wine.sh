@@ -14,6 +14,11 @@ if [ ! -d ".wine" ]; then
     mkdir .wine
 fi
 
+# fix game won't start after update
+if [ -f ".wine/.update-timestamp" ]; then
+    rm .wine/.update-timestamp
+fi
+
 # backup current script
 if [ ! -f "zaap-start.old" ]; then
     mv zaap-start.sh zaap-start.old

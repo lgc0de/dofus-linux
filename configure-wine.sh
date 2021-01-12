@@ -1,6 +1,8 @@
 #!/bin/sh
 currentpath="$PWD"
-winever="5.7-10"
+
+# change version number to downgrade to another old build
+winever="6.0-rc1"
 
 # download lutris wine build
 if [ ! -d "lutris-$winever-x86_64" ]; then

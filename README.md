@@ -9,15 +9,6 @@ Ce script corrige :
 
 NB: Le script doit être relancé après chaque MAJ !
 
-### Prérequis
-- winetricks (souvent déjà installé)
-
-**Debian / Ubuntu**
-```$ sudo apt-get install winetricks```
-
-**Arch / Manjaro**
-```$ sudo pacman -S winetricks```
-
 ### Utilisation
 - copier le script dans le répertoire du jeu, par défaut : ~/.config/Ankama/zaap/dofus (ctrl+h pour voir les fichiers cachés)
 - ouvrir un terminal et lancer ./configure-wine.sh

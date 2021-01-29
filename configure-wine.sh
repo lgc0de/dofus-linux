@@ -23,9 +23,7 @@ fi
 
 # backup current script
 if [ ! -f "zaap-start.old" ]; then
-    mv zaap-start.sh zaap-start.old
-else
-    rm zaap-start.sh
+    cp zaap-start.sh zaap-start.old
 fi
 
 # create new script

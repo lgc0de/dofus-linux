@@ -1,4 +1,4 @@
-## Dofus avec wineprefix
+# Dofus avec wineprefix
 
 Cette version de Wine est créée par Lutris et inclue les patchs proton de Valve ainsi que d'autres fix créés par la communauté.
 
@@ -9,8 +9,14 @@ Ce script corrige :
 
 NB: Le script doit être relancé après chaque MAJ !
 
-### Utilisation
+## Utilisation
+### Wine
 - copier le script dans le répertoire du jeu, par défaut : ~/.config/Ankama/zaap/dofus (ctrl+h pour voir les fichiers cachés)
-- ouvrir un terminal et lancer ./configure-wine.sh
+- ouvrir un terminal et lancer ```./configure-wine.sh --install```
 - patienter 
 - lancer le jeu via Ankama Launcher :)
+
+### DXVK
+Si votre matériel est compatible avec vulkan, le script permet de configurer DXVK pour Dofus. 
+- Fermer le jeu 
+- lancer ```./configure-wine.sh --dxvk```

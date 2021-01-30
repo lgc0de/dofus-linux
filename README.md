@@ -13,10 +13,10 @@ NB: Le script doit être relancé après chaque MAJ !
 ### Wine
 - copier le script dans le répertoire du jeu, par défaut : ~/.config/Ankama/zaap/dofus (ctrl+h pour voir les fichiers cachés)
 - ouvrir un terminal et lancer ```./configure-wine.sh --install```
-- patienter 
-- lancer le jeu via Ankama Launcher :)
+- patienter puis fermer le jeu
+- relancer le jeu via Ankama Launcher :)
 
 ### DXVK
 Si votre matériel est compatible avec vulkan, le script permet de configurer DXVK pour Dofus. 
-- Fermer le jeu 
+- fermer le jeu 
 - lancer ```./configure-wine.sh --dxvk```

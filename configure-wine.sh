@@ -54,6 +54,6 @@ fi
 if [ "$action" == "--dxvk" ]; then
     wget https://github.com/doitsujin/dxvk/releases/download/v$dxvkver/dxvk-$dxvkver.tar.gz
     tar -xf dxvk-$dxvkver.tar.gz
-    WINEPREFIX=$prefix $dir/dxvk-$dxvkver/setup_dxvk.sh install
+    WINEPREFIX=$dir/.wine $dir/dxvk-$dxvkver/setup_dxvk.sh install
     rm dxvk-$dxvkver.tar.gz
 fi

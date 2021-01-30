@@ -1,5 +1,5 @@
 #!/bin/sh
-$dir="$PWD"
+dir="$PWD"
 
 # change version number to downgrade to another old build
 winever="6.0"
@@ -46,6 +46,8 @@ if [ "$action" == "--install" ]; then
 
     # add execute to script
     chmod +x zaap-start.sh
+
+    ./zaap-start.sh
 fi
 
 # configure dxvk

@@ -1,11 +1,13 @@
-# Dofus avec wineprefix
+# Dofus Linux
+## Standalone wineprefix
 
-Cette version de Wine est créée par Lutris et inclue les patchs proton de Valve ainsi que d'autres fix créés par la communauté.
+Le script utilise la version Wine de Lutris et inclue les patchs proton de Valve ainsi que d'autres fix créés par la communauté.
 
-Ce script corrige :
+Ajouts/corrections:
 - le problème du jeu bloqué à 56% au lancement
 - le plantage de wineserver de temps en temps (jeu figé)
 - jeu plus fluide
+- support de DXVK
 
 NB: Le script doit être relancé après chaque MAJ !
 
@@ -20,3 +22,4 @@ NB: Le script doit être relancé après chaque MAJ !
 Si votre matériel est compatible avec vulkan, le script permet de configurer DXVK pour Dofus. 
 - fermer le jeu 
 - lancer ```./configure-wine.sh --dxvk```
+- relancer le jeu via Ankama Launcher :)

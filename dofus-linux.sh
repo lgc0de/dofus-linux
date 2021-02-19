@@ -5,7 +5,7 @@ dir="$PWD"
 winever="6.0"
 
 # use for dxvk
-dxvkver="1.7.3"
+dxvkver="1.8"
 
 # create new script
 script=$(cat <<EOF
@@ -18,8 +18,19 @@ EOF
 # user action to perform
 action="$1"
 
+case "$action" in
+configure)
+  ;;
+dxvk)
+  ;;
+*)
+  echo "Action inconnue: $action"
+  echo "Usage: $0 [configure|dxvk]"
+  exit 1
+esac
+
 # install wine prefix
-if [ "$action" == "--install" ]; then
+configure() {
     # download lutris wine build
     if [ ! -d "lutris-$winever-x86_64" ]; then
         wget https://github.com/lutris/wine/releases/download/lutris-$winever/wine-lutris-$winever-x86_64.tar.xz
@@ -48,12 +59,14 @@ if [ "$action" == "--install" ]; then
     chmod +x zaap-start.sh
 
     ./zaap-start.sh
-fi
+}
 
 # configure dxvk
-if [ "$action" == "--dxvk" ]; then
+dxvk() {
     wget https://github.com/doitsujin/dxvk/releases/download/v$dxvkver/dxvk-$dxvkver.tar.gz
     tar -xf dxvk-$dxvkver.tar.gz
     WINEPREFIX=$dir/.wine $dir/dxvk-$dxvkver/setup_dxvk.sh install
     rm dxvk-$dxvkver.tar.gz
-fi
+}
+
+$action

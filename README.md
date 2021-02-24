@@ -1,7 +1,7 @@
 # Dofus Linux
 ## Standalone wineprefix
 
-Le script utilise la version Wine de Lutris et inclue les patchs proton de Valve ainsi que d'autres fix créés par la communauté.
+Le script utilise la version Wine de Lutris qui inclue les patchs proton de Valve ainsi que d'autres fix créés par la communauté.
 
 Ajouts/corrections:
 - le problème du jeu bloqué à 56% au lancement

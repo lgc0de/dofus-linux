@@ -6,7 +6,7 @@ lutriswinepath="/home/$USER/.local/share/lutris/runners/wine"
 winever="6.0"
 
 # use for dxvk
-dxvkver="1.8"
+dxvkver="1.8.1"
 
 # create new script
 script=$(cat <<EOF

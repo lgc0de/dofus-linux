@@ -1,5 +1,6 @@
 #!/bin/sh
 dir="$PWD"
+lutriswinepath="/home/$USER/.local/share/lutris/runners/wine"
 
 # change version number to downgrade to another old build
 winever="6.0"
@@ -31,12 +32,20 @@ esac
 
 # install wine prefix
 configure() {
-    # download lutris wine build
-    if [ ! -d "lutris-$winever-x86_64" ]; then
-        wget https://github.com/lutris/wine/releases/download/lutris-$winever/wine-lutris-$winever-x86_64.tar.xz
-        tar -xf wine-lutris-$winever-x86_64.tar.xz
-        rm wine-lutris-$winever-x86_64.tar.xz
-    fi
+	if [ -d $lutriswinepath ]; then
+		if [ -d "$lutriswinepath/lutris-$winever-x86_64" ]; then
+			ln -s $lutriswinepath/lutris-$winever-x86_64 $dir
+		else
+			echo "Télécharger wine depuis Lutris !"
+		fi
+	else
+		# download lutris wine build
+		if [ ! -d "lutris-$winever-x86_64" ]; then
+		    wget https://github.com/lutris/wine/releases/download/lutris-$winever/wine-lutris-$winever-x86_64.tar.xz
+		    tar -xf wine-lutris-$winever-x86_64.tar.xz
+		    rm wine-lutris-$winever-x86_64.tar.xz
+		fi
+	fi
 
     # create wine environment
     if [ ! -d ".wine" ]; then

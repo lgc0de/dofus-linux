@@ -32,42 +32,42 @@ esac
 
 # install wine prefix
 configure() {
-	if [ -d $lutriswinepath ]; then
-		if [ -d "$lutriswinepath/lutris-$winever-x86_64" ]; then
-			ln -s $lutriswinepath/lutris-$winever-x86_64 $dir
-		else
-			echo "Télécharger wine depuis Lutris !"
-		fi
-	else
-		# download lutris wine build
-		if [ ! -d "lutris-$winever-x86_64" ]; then
-		    wget https://github.com/lutris/wine/releases/download/lutris-$winever/wine-lutris-$winever-x86_64.tar.xz
-		    tar -xf wine-lutris-$winever-x86_64.tar.xz
-		    rm wine-lutris-$winever-x86_64.tar.xz
-		fi
-	fi
-
-    # create wine environment
-    if [ ! -d ".wine" ]; then
-        mkdir .wine
+  if [ -d $lutriswinepath ]; then
+    if [ -d "$lutriswinepath/lutris-$winever-x86_64" ]; then
+      ln -s $lutriswinepath/lutris-$winever-x86_64 $dir
+    else
+      echo "Télécharger wine depuis Lutris !"
     fi
-
-    # fix game won't start after update
-    if [ -f ".wine/.update-timestamp" ]; then
-        rm .wine/.update-timestamp
+  else
+    # download lutris wine build
+    if [ ! -d "lutris-$winever-x86_64" ]; then
+        wget https://github.com/lutris/wine/releases/download/lutris-$winever/wine-lutris-$winever-x86_64.tar.xz
+        tar -xf wine-lutris-$winever-x86_64.tar.xz
+        rm wine-lutris-$winever-x86_64.tar.xz
     fi
+  fi
 
-    # backup current script
-    if [ ! -f "zaap-start.old" ]; then
-        cp zaap-start.sh zaap-start.old
-    fi
+  # create wine environment
+  if [ ! -d ".wine" ]; then
+      mkdir .wine
+  fi
 
-    echo "$script" | tee zaap-start.sh
+  # fix game won't start after update
+  if [ -f ".wine/.update-timestamp" ]; then
+      rm .wine/.update-timestamp
+  fi
 
-    # add execute to script
-    chmod +x zaap-start.sh
+  # backup current script
+  if [ ! -f "zaap-start.old" ]; then
+      cp zaap-start.sh zaap-start.old
+  fi
 
-    ./zaap-start.sh
+  echo "$script" | tee zaap-start.sh
+
+  # add execute to script
+  chmod +x zaap-start.sh
+
+  ./zaap-start.sh
 }
 
 # configure dxvk

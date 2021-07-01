@@ -3,10 +3,10 @@ dir="$PWD"
 lutriswinepath="/home/$USER/.local/share/lutris/runners/wine"
 
 # change version number to downgrade to another old build
-winever="6.10"
+winever="6.10-6"
 
 # use for dxvk
-dxvkver="1.8.1"
+dxvkver="1.9"
 
 # create new script
 script=$(cat <<EOF

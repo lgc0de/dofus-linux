@@ -3,15 +3,15 @@ dir="$PWD"
 lutriswinepath="/home/$USER/.local/share/lutris/runners/wine"
 
 # change version number to downgrade to another old build
-winever="6.10-6"
+winever=$(curl --silent "https://api.github.com/repos/lutris/wine/releases/latest" | grep -Po '"tag_name": "\K.*?(?=")' | cut -d'v' -f2)
 
 # use for dxvk
-dxvkver="1.9"
+dxvkver=$(curl --silent "https://api.github.com/repos/doitsujin/dxvk/releases/latest" | grep -Po '"tag_name": "\K.*?(?=")' | cut -d'v' -f2)
 
 # create new script
 script=$(cat <<EOF
 #!/bin/sh
-WINEPREFIX=$dir/.wine $dir/lutris-$winever-x86_64/bin/wine Dofus.exe --port=\$ZAAP_PORT --gameName=\$ZAAP_GAME --gameRelease=\$ZAAP_RELEASE --instanceId=\$ZAAP_INSTANCE_ID --hash=\$ZAAP_HASH --canLogin=\$ZAAP_CAN_AUTH > /dev/null 2>&1
+WINEPREFIX=$dir/.wine $dir/$winever-x86_64/bin/wine Dofus.exe --port=\$ZAAP_PORT --gameName=\$ZAAP_GAME --gameRelease=\$ZAAP_RELEASE --instanceId=\$ZAAP_INSTANCE_ID --hash=\$ZAAP_HASH --canLogin=\$ZAAP_CAN_AUTH > /dev/null 2>&1
 exit \$?
 EOF
 )
@@ -33,17 +33,17 @@ esac
 # install wine prefix
 configure() {
   if [ -d $lutriswinepath ]; then
-    if [ -d "$lutriswinepath/lutris-$winever-x86_64" ]; then
-      ln -s $lutriswinepath/lutris-$winever-x86_64 $dir
+    if [ -d "$lutriswinepath/$winever-x86_64" ]; then
+      ln -s $lutriswinepath/$winever-x86_64 $dir
     else
       echo "Télécharger wine depuis Lutris !"
     fi
   else
     # download lutris wine build
-    if [ ! -d "lutris-$winever-x86_64" ]; then
-        wget https://github.com/lutris/wine/releases/download/lutris-$winever/wine-lutris-$winever-x86_64.tar.xz
-        tar -xf wine-lutris-$winever-x86_64.tar.xz
-        rm wine-lutris-$winever-x86_64.tar.xz
+    if [ ! -d "$winever-x86_64" ]; then
+        wget https://github.com/lutris/wine/releases/download/$winever/wine-$winever-x86_64.tar.xz
+        tar -xf wine-$winever-x86_64.tar.xz
+        rm wine-$winever-x86_64.tar.xz
     fi
   fi
 

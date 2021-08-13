@@ -3,7 +3,7 @@ dir="$PWD"
 lutriswinepath="/home/$USER/.local/share/lutris/runners/wine"
 
 # change version number to downgrade to another old build
-winever="6.13-2"
+winever="6.14-3"
 
 # use for dxvk
 dxvkver=$(curl --silent "https://api.github.com/repos/doitsujin/dxvk/releases/latest" | grep -Po '"tag_name": "\K.*?(?=")' | cut -d'v' -f2)

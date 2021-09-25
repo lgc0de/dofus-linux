@@ -8,6 +8,9 @@ winever="6.14-3"
 # use for dxvk
 dxvkver=$(curl --silent "https://api.github.com/repos/doitsujin/dxvk/releases/latest" | grep -Po '"tag_name": "\K.*?(?=")' | cut -d'v' -f2)
 
+# check wine install
+wineinstall=false
+
 # create new script
 script=$(cat <<EOF
 #!/bin/sh
@@ -34,9 +37,14 @@ esac
 configure() {
   if [ -d $lutriswinepath ]; then
     if [ -d "$lutriswinepath/lutris-$winever-x86_64" ]; then
-      ln -s $lutriswinepath/lutris-$winever-x86_64 $dir
+      if [ ! -d "$dir/lutris-$winever-x86_64" ]; then
+        ln -s $lutriswinepath/lutris-$winever-x86_64 $dir
+        wineinstall=true
+      fi
+      echo "Wine correctement installé"
     else
-      echo "Télécharger wine depuis Lutris !"
+      echo "Télécharger wine depuis Lutris, version : lutris-$winever"
+      echo "Puis relancer le script"
     fi
   else
     # download lutris wine build
@@ -44,30 +52,33 @@ configure() {
         wget https://github.com/lutris/wine/releases/download/lutris-$winever/wine-lutris-$winever-x86_64.tar.xz
         tar -xf wine-lutris-$winever-x86_64.tar.xz
         rm wine-lutris-$winever-x86_64.tar.xz
+        wineinstall=true
     fi
   fi
 
-  # create wine environment
-  if [ ! -d ".wine" ]; then
-      mkdir .wine
+  if [ "$wineinstall" = true ]; then
+    # create wine environment
+    if [ ! -d ".wine" ]; then
+        mkdir .wine
+    fi
+
+    # fix game won't start after update
+    if [ -f ".wine/.update-timestamp" ]; then
+        rm .wine/.update-timestamp
+    fi
+
+    # backup current script
+    if [ ! -f "zaap-start.old" ]; then
+        cp zaap-start.sh zaap-start.old
+    fi
+
+    echo "$script" | tee zaap-start.sh
+
+    # add execute to script
+    chmod +x zaap-start.sh
+
+    ./zaap-start.sh
   fi
-
-  # fix game won't start after update
-  if [ -f ".wine/.update-timestamp" ]; then
-      rm .wine/.update-timestamp
-  fi
-
-  # backup current script
-  if [ ! -f "zaap-start.old" ]; then
-      cp zaap-start.sh zaap-start.old
-  fi
-
-  echo "$script" | tee zaap-start.sh
-
-  # add execute to script
-  chmod +x zaap-start.sh
-
-  ./zaap-start.sh
 }
 
 # configure dxvk

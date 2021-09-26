@@ -62,11 +62,6 @@ configure() {
         mkdir .wine
     fi
 
-    # fix game won't start after update
-    if [ -f ".wine/.update-timestamp" ]; then
-        rm .wine/.update-timestamp
-    fi
-
     # backup current script
     if [ ! -f "zaap-start.old" ]; then
         cp zaap-start.sh zaap-start.old
@@ -78,6 +73,11 @@ configure() {
     chmod +x zaap-start.sh
 
     ./zaap-start.sh
+  fi
+
+  # fix game won't start after update
+  if [ -f ".wine/.update-timestamp" ]; then
+      rm .wine/.update-timestamp
   fi
 }
 

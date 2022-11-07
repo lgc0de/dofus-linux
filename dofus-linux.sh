@@ -53,7 +53,7 @@ configure() {
   else
     # download lutris wine build
     if [ ! -d "$winever-x86_64" ]; then
-        wget https://github.com/lutris/wine/releases/download/lutris-$winever/wine-lutris-$winever-x86_64.tar.xz
+        wget https://github.com/lutris/wine/releases/download/lutris-wine-$winever/wine-lutris-$winever-x86_64.tar.xz
         tar -xf wine-lutris-$winever-x86_64.tar.xz
         rm wine-lutris-$winever-x86_64.tar.xz
         wineinstall=true

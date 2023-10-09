@@ -3,7 +3,7 @@ dir="$PWD"
 lutriswinepath="/home/$USER/.local/share/lutris/runners/wine"
 
 # change version number to downgrade to another old build
-winever="7.2-2"
+winever="8-17"
 
 # fsync support (only work if you have a kernel with futex sync support)
 # put 0 if you want to disable fsync ()
@@ -18,7 +18,7 @@ wineinstall=false
 # create new script
 script=$(cat <<EOF
 #!/bin/sh
-WINEPREFIX=$dir/.wine WINEFSYNC=$fsync $dir/lutris-$winever-x86_64/bin/wine Dofus.exe --port=\$ZAAP_PORT --gameName=\$ZAAP_GAME --gameRelease=\$ZAAP_RELEASE --instanceId=\$ZAAP_INSTANCE_ID --hash=\$ZAAP_HASH --canLogin=\$ZAAP_CAN_AUTH > /dev/null 2>&1
+WINEPREFIX=$dir/.wine WINEFSYNC=$fsync $dir/lutris-GE-Proton$winever-x86_64/bin/wine Dofus.exe --port=\$ZAAP_PORT --gameName=\$ZAAP_GAME --gameRelease=\$ZAAP_RELEASE --instanceId=\$ZAAP_INSTANCE_ID --hash=\$ZAAP_HASH --canLogin=\$ZAAP_CAN_AUTH > /dev/null 2>&1
 exit \$?
 EOF
 )
@@ -39,25 +39,26 @@ esac
 
 # install wine prefix
 configure() {
-  if [ -d $lutriswinepath ]; then
-    if [ -d "$lutriswinepath/lutris-$winever-x86_64" ]; then
-      if [ ! -d "$dir/lutris-$winever-x86_64" ]; then
-        ln -s $lutriswinepath/lutris-$winever-x86_64 $dir
+  if [ ! -d "$dir/lutris-GE-Proton$winever-x86_64" ]; then
+    #clean old wine
+    rm -rf $dir/lutris-GE-Proton*
+
+    #check lastest version
+    releasever=$(curl --silent "https://api.github.com/repos/GloriousEggroll/wine-ge-custom/releases/latest" | grep -Po '"tag_name": "\K.*?(?=")' | cut -d'v' -f2)
+    filename=$(curl --silent "https://api.github.com/repos/GloriousEggroll/wine-ge-custom/releases/latest" | grep -Po '"name": "\K.*?(?=")' | tail -n1)
+
+    #exclude LoL release
+    checktype=${releasever:0:9}
+    if [ $checktype == "GE-Proton" ]; then
+        echo "Wine GE: téléchargement de la version $releasever ..."
+        wget -q https://github.com/GloriousEggroll/wine-ge-custom/releases/download/$releasever/$filename
+        tar -xf $filename
+        rm $filename
         wineinstall=true
-      fi
-      echo "Wine correctement installé"
-    else
-      echo "Télécharger wine depuis Lutris, version : lutris-$winever"
-      echo "Puis relancer le script"
+        echo "Wine GE: install ok ($releasever)"
     fi
   else
-    # download lutris wine build
-    if [ ! -d "$winever-x86_64" ]; then
-        wget https://github.com/lutris/wine/releases/download/lutris-$winever/wine-lutris-$winever-x86_64.tar.xz
-        tar -xf wine-lutris-$winever-x86_64.tar.xz
-        rm wine-lutris-$winever-x86_64.tar.xz
-        wineinstall=true
-    fi
+    echo "Wine GE: déjà à jour ($winever)"
   fi
 
   if [ "$wineinstall" = true ]; then
@@ -68,7 +69,7 @@ configure() {
 
     # backup current script
     if [ ! -f "zaap-start.old" ]; then
-        cp zaap-start.sh zaap-start.old
+      cp zaap-start.sh zaap-start.old
     fi
 
     echo "$script" | tee zaap-start.sh
@@ -76,7 +77,7 @@ configure() {
     # add execute to script
     chmod +x zaap-start.sh
 
-    ./zaap-start.sh
+    #./zaap-start.sh
   fi
 
   # fix game won't start after update
@@ -89,8 +90,10 @@ configure() {
 dxvk() {
     wget https://github.com/doitsujin/dxvk/releases/download/v$dxvkver/dxvk-$dxvkver.tar.gz
     tar -xf dxvk-$dxvkver.tar.gz
-    WINEPREFIX=$dir/.wine $dir/dxvk-$dxvkver/setup_dxvk.sh install
+    mv -f $dir/dxvk-$dxvkver/x32/* $dir/.wine/drive_c/windows/system32/
+    mv -f $dir/dxvk-$dxvkver/x64/* $dir/.wine/drive_c/windows/syswow64/
     rm dxvk-$dxvkver.tar.gz
+    rm -r dxvk-$dxvkver
 }
 
 $action

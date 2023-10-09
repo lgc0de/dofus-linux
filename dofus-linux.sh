@@ -18,7 +18,7 @@ wineinstall=false
 # create new script
 script=$(cat <<EOF
 #!/bin/sh
-WINEPREFIX=$dir/.wine WINEFSYNC=$fsync $dir/lutris-GE-Proton$winever-x86_64/bin/wine Dofus.exe --port=\$ZAAP_PORT --gameName=\$ZAAP_GAME --gameRelease=\$ZAAP_RELEASE --instanceId=\$ZAAP_INSTANCE_ID --hash=\$ZAAP_HASH --canLogin=\$ZAAP_CAN_AUTH > /dev/null 2>&1
+WINEPREFIX=$dir/.wine WINEFSYNC=$fsync $dir/wine-ge-$winever-x86_64/bin/wine Dofus.exe --port=\$ZAAP_PORT --gameName=\$ZAAP_GAME --gameRelease=\$ZAAP_RELEASE --instanceId=\$ZAAP_INSTANCE_ID --hash=\$ZAAP_HASH --canLogin=\$ZAAP_CAN_AUTH > /dev/null 2>&1
 exit \$?
 EOF
 )
@@ -39,26 +39,28 @@ esac
 
 # install wine prefix
 configure() {
-  if [ ! -d "$dir/lutris-GE-Proton$winever-x86_64" ]; then
-    #clean old wine
-    rm -rf $dir/lutris-GE-Proton*
-
-    #check lastest version
-    releasever=$(curl --silent "https://api.github.com/repos/GloriousEggroll/wine-ge-custom/releases/latest" | grep -Po '"tag_name": "\K.*?(?=")' | cut -d'v' -f2)
-    filename=$(curl --silent "https://api.github.com/repos/GloriousEggroll/wine-ge-custom/releases/latest" | grep -Po '"name": "\K.*?(?=")' | tail -n1)
-
-    #exclude LoL release
-    checktype=${releasever:0:9}
-    if [ $checktype == "GE-Proton" ]; then
-        echo "Wine GE: téléchargement de la version $releasever ..."
-        wget -q https://github.com/GloriousEggroll/wine-ge-custom/releases/download/$releasever/$filename
-        tar -xf $filename
-        rm $filename
+  if [ -d $lutriswinepath ]; then
+    if [ -d "$lutriswinepath/wine-ge-$winever-x86_64" ]; then
+      if [ ! -d "$dir/wine-ge-$winever-x86_64" ]; then
+        ln -s $lutriswinepath/wine-ge-$winever-x86_64 $dir
         wineinstall=true
-        echo "Wine GE: install ok ($releasever)"
+      fi
+      echo "Wine correctement installé"
+    else
+      echo "Télécharger wine depuis Lutris, version : wine-ge-$winever"
+      echo "Puis relancer le script"
     fi
   else
-    echo "Wine GE: déjà à jour ($winever)"
+    # download lutris wine build
+    if [ ! -d "$dir/wine-ge-$winever-x86_64" ]; then
+      #check lastest version
+      wget -q https://github.com/GloriousEggroll/wine-ge-custom/releases/download/GE-Proton$winever/wine-lutris-GE-Proton$winever-x86_64.tar.xz
+      tar -xf $dir/wine-lutris-GE-Proton$winever-x86_64.tar.xz
+      mv $dir/lutris-GE-Proton$winever-x86_64 $dir/wine-ge-$winever-x86_64
+      rm $dir/wine-lutris-GE-Proton$winever-x86_64.tar.xz
+      wineinstall=true
+      echo "Wine ge: install ok ($winever)"
+    fi
   fi
 
   if [ "$wineinstall" = true ]; then

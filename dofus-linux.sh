@@ -3,7 +3,7 @@ dir="$PWD"
 lutriswinepath="/home/$USER/.local/share/lutris/runners/wine"
 
 # change version number to downgrade to another old build
-winever="8-24"
+winever="8-26"
 
 # fsync support (only work if you have a kernel with futex sync support)
 # put 0 if you want to disable fsync ()

@@ -1,4 +1,8 @@
 # Dofus Linux
+## Dofus Unity / Dofus 3.0
+Dofus est maintenant disponible nativement avec le moteur unity
+Ce script n'a donc plus d'intérêt, je le laisse actif si jamais un jour on a un Dofus retro 2.0 :)
+
 ## Standalone wineprefix
 
 Le script utilise la version Wine de Lutris qui inclue les patchs proton de Valve ainsi que d'autres fix créés par la communauté.
